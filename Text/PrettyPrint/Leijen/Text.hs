@@ -126,13 +126,13 @@ import Data.String (IsString (..))
 import System.IO   (Handle, hPutChar, stdout)
 
 import           Data.Int               (Int64)
-import           Data.Monoid            (Monoid (..), (<>))
+import           Data.Monoid            (Monoid (..))
 import           Data.Text.Lazy         (Text)
 import qualified Data.Text.Lazy         as T
 import           Data.Text.Lazy.Builder (Builder)
 import qualified Data.Text.Lazy.Builder as B
 import qualified Data.Text.Lazy.IO      as T
-
+import           Data.Semigroup         (Semigroup (..))
 
 infixr 5 </>,<//>,<$>,<$$>
 infixr 6 <+>,<++>
@@ -766,6 +766,9 @@ data Doc = Empty
 
 instance IsString Doc where
   fromString = string . T.pack
+
+instance Semigroup Doc where
+  (<>) = beside
 
 -- | In particular, note that the document @(x '<>' y)@ concatenates
 --   document @x@ and document @y@. It is an associative operation
